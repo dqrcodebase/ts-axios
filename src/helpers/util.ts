@@ -6,3 +6,6 @@ export function isObject(val: any): val is Object {
 export function isDate(val: any): val is Date {
   return toString.call(val) === '[object, Date]'
 }
+export function isPlainObject(data: any): Boolean {
+  return toString.call(data) === '[object, Object]'
+}
