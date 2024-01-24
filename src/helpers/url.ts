@@ -25,7 +25,7 @@ export function buildURL(url: string, params?: any) {
     if (val === null || val === undefined) {
       return
     }
-    let values: string[]
+    let values: any[]
     if (Array.isArray(val)) {
       values = val
       key += '[]'

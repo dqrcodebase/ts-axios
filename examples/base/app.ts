@@ -61,14 +61,26 @@ import axios from '../../src/index'
 //   }
 // })
 
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   data: [2,3,4,5,6],
+//   headers: {
+//     'content-type': 'application/json;charset=utf-8'
+//   },
+// })
+
 axios({
   method: 'post',
   url: '/base/post',
   data: {
-    a: 1,
-    b: 2
+    aa: '222'
   },
   headers: {
     'content-type': 'application/json;charset=utf-8'
   },
+  responseType: 'json'
+}).then(res => {
+  console.log("🚀 ~ res:", res)
+  
 })

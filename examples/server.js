@@ -15,9 +15,7 @@ router.get('/base/get', function(req, res) {
   })
 })
 router.post('/base/post', function(req, res) {
-  res.json({
-    msg: `hello world`
-  })
+  res.json(req.body)
 })
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/__build__/',
