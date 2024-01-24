@@ -61,25 +61,25 @@ import axios from '../../src/index'
 //   }
 // })
 
-// axios({
-//   method: 'post',
-//   url: '/base/post',
-//   data: [2,3,4,5,6],
-//   headers: {
-//     'content-type': 'application/json;charset=utf-8'
-//   },
-// })
+axios({
+  method: 'post',
+  url: '/base/post',
+  data: [2,3,4,5,6],
+  headers: {
+    'content-type': 'application/json;charset=utf-8'
+  },
+})
 
 axios({
   method: 'post',
   url: '/base/post',
   data: {
-    aa: '222'
+    aa: 'aa'
   },
   headers: {
     'content-type': 'application/json;charset=utf-8'
   },
-  responseType: 'json'
+  // responseType: 'json'
 }).then(res => {
   console.log("🚀 ~ res:", res)
   
