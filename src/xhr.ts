@@ -13,6 +13,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     if (timeout) {
       request.timeout = timeout
     }
+    // open方法的第三个参数表示是否异步，默认为true
     request.open(method.toUpperCase(), url, true)
 
     request.onreadystatechange = function handleLoad() {
@@ -66,6 +67,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.setRequestHeader(name, headers[name])
       }
     })
+    // 参数是要发送的数据体
     request.send(data)
   })
 }
