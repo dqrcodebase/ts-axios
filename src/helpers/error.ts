@@ -22,6 +22,9 @@ export class AxiosError extends Error {
     this.response = response
     this.isAxiosError = true
 
+    // 为了解决 TypeScript 继承一些内置对象的时候的坑
+    // 因为 TypeScript 只会编译实例的方法，不会编译原型上的方法
+    // 所以这里需要手动设置原型
     Object.setPrototypeOf(this, AxiosError.prototype)
   }
 }
