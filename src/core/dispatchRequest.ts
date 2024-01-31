@@ -30,6 +30,7 @@ function transformRequestData(config: AxiosRequestConfig) {
   return transformRequest(data)
 }
 function transformResponseData(response: AxiosResponse) {
-  return transformResponse(response.data)
+  response.data = transformResponse(response.data)
+  return response
 }
 export default axios

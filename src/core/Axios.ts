@@ -1,6 +1,24 @@
-import { AxiosRequestConfig, AxiosPromise } from '../types'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse, ResolvedFn, RejectedFn } from '../types'
 import dispatchRequest from './dispatchRequest'
+import AxiosInterceptorManager from './AxiosInterceptorManager'
+
+interface Interceptors {
+  request: AxiosInterceptorManager<AxiosRequestConfig>
+  response: AxiosInterceptorManager<AxiosResponse>
+}
+
+interface PromiseChain {
+  resolved: ResolvedFn | ((config: AxiosRequestConfig) => AxiosPromise)
+  rejected?: RejectedFn
+}
 export default class Axios {
+  interceptors: Interceptors
+  constructor() {
+    this.interceptors = {
+      request: new AxiosInterceptorManager<AxiosRequestConfig>(),
+      response: new AxiosInterceptorManager<AxiosResponse>()
+    }
+  }
   request(url: any, config?: any): AxiosPromise {
     // 我们判断 url 是否为字符串类型，一旦它为字符串类型，则继续对 config 判断，
     // 因为它可能不传，如果为空则构造一个空对象，然后把 url 添加到 config.url 中。
@@ -14,7 +32,29 @@ export default class Axios {
     } else {
       config = url
     }
-    return dispatchRequest(config)
+
+    const chain: PromiseChain[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
+
+    this.interceptors.request.forEach(interceptor => {
+      chain.unshift(interceptor)
+    })
+
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor)
+    })
+
+    let promise = Promise.resolve(config)
+    while (chain.length) {
+      const { resolved, rejected } = chain.shift()!
+      promise = promise.then(resolved, rejected)
+    }
+
+    return promise
   }
 
   get(url: string, config?: AxiosRequestConfig): AxiosPromise {
